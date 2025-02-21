@@ -1,6 +1,7 @@
 import UseAxios from "../../../Hooks/UseAxios";
 import { useQuery } from "@tanstack/react-query";
 import DeleteTask from "../DeleteTask/DeleteTask";
+import UpdateTask from "../UpdateTask/UpdateTask";
 
 const AllTask = () => {
   const axiosAll = UseAxios();
@@ -50,9 +51,11 @@ const AllTask = () => {
                         id={task._id}
                         refetch={refetch}>
                       </DeleteTask>
-                      <li className="bg-orange-400 text-white">
-                        <a>Update</a>
-                      </li>
+                      <UpdateTask
+                        id={task._id}
+                        refetch={refetch}
+                        task={task}
+                      ></UpdateTask>
                     </ul>
                   </details>
                 </td>
