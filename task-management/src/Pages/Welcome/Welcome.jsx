@@ -4,7 +4,7 @@ import Button from '../../Components/Button/Button';
 
 const Welcome = () => {
     return (
-        <div>
+        <div className='max-w-7xl w-full mx-auto '>
             <img className='h-[400px] w-full mx-auto object-contain' src={heroImage} alt="" />
             <div className='text-center'>
                 <h2 className="text-3xl mb-4 md:text-5xl">Want to manage your task??</h2>
