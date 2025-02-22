@@ -2,6 +2,7 @@ import UseAxios from "../../../Hooks/UseAxios";
 import { useQuery } from "@tanstack/react-query";
 import DeleteTask from "../DeleteTask/DeleteTask";
 import UpdateTask from "../UpdateTask/UpdateTask";
+import Swal from "sweetalert2";
 
 const AllTask = () => {
   const axiosAll = UseAxios();
@@ -13,6 +14,21 @@ const AllTask = () => {
       return res.data;
     },
   });
+
+  
+  const handleSubmitStatusChange = async(id, newStatus) =>{
+    await axiosAll.patch(`/taskStatus/${id}`, {status:newStatus})
+    .then(res =>{
+        if(res.data.modifiedCount > 0){
+            refetch();
+            Swal.fire({
+                title: "Role changed",
+                text: `Role changed to ${status}`,
+                icon: "success"
+            });
+        }
+    })
+}
 
   return (
     <div className="mt-8">
@@ -35,8 +51,8 @@ const AllTask = () => {
                 <th>{task.title}</th>
                 <td className="font-semibold">{task.description}</td>
                 <td>
-                  <select className="select text-black select-bordered w-full max-w-xs">
-                    <option defaultValue={'To-Do'}>
+                  <select  onChange={(e)=>handleSubmitStatusChange(task._id, e.target.value)} value={task.status} className="select text-black select-bordered w-full max-w-xs">
+                    <option>
                       To-Do
                     </option>
                     <option>InProgress</option>
