@@ -1,11 +1,19 @@
 import toast from "react-hot-toast";
 import UseAuth from "../../Hooks/UseAuth";
 import UseAxios from "../../Hooks/UseAxios";
+import { useQuery } from "@tanstack/react-query";
 
 // eslint-disable-next-line react/prop-types
 const AddTaskButton = ({ onclick }) => {
     const {user} = UseAuth();
     const axiosAll = UseAxios();
+    const { data: tasks = [], refetch } = useQuery({
+        queryKey: ["repoData"],
+        queryFn: async () => {
+          const res = await axiosAll.get(`/task/${user?.email}`);
+          return res.data;
+        },
+      });
 
     const handleTaskSubmit = async(e) =>{
         e.preventDefault();
@@ -20,8 +28,10 @@ const AddTaskButton = ({ onclick }) => {
             form.reset();
             toast.success("Data stored successfully");
             document.getElementById("my_modal_5").close();
+            refetch();
         }
     }
+
   return (
     <div>
       <div
