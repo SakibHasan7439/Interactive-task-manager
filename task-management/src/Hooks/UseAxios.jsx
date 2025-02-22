@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const axiosData = axios.create({
-    baseURL: 'http://localhost:3000'
+    baseURL: 'https://interactive-task-manager-server.vercel.app'
 })
 
 const UseAxios = () => {
