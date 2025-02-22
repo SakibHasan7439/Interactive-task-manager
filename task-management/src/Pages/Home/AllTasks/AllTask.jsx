@@ -3,18 +3,19 @@ import { useQuery } from "@tanstack/react-query";
 import DeleteTask from "../DeleteTask/DeleteTask";
 import UpdateTask from "../UpdateTask/UpdateTask";
 import Swal from "sweetalert2";
+import UseAuth from "../../../Hooks/UseAuth";
 
 const AllTask = () => {
+  const {user} = UseAuth();
   const axiosAll = UseAxios();
 
   const { data: tasks = [], refetch } = useQuery({
     queryKey: ["repoData"],
     queryFn: async () => {
-      const res = await axiosAll.get("/task");
+      const res = await axiosAll.get(`/task/${user?.email}`);
       return res.data;
     },
   });
-
   
   const handleSubmitStatusChange = async(id, newStatus) =>{
     await axiosAll.patch(`/taskStatus/${id}`, {status:newStatus})

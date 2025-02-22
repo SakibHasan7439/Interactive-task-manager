@@ -20,6 +20,11 @@ const Register = () => {
       const formData = new FormData();
       formData.append('image', image);
       const {data} = await axios.post(`https://api.imgbb.com/1/upload?key=${import.meta.env.VITE_IMGBB_API_KEY}`, formData);
+
+      if(!data.data.display_url){
+        throw new Error('image upload failed');
+      }
+
       const image_url = data.data.display_url;
 
       registerNewUser(value.email, value.password)
@@ -35,7 +40,7 @@ const Register = () => {
               .then((res) =>{
                   if(res.data.insertedId){
                       toast.success("registered successful");
-                      navigate('/');
+                      navigate('/home');
                       reset();
                   }
               })
